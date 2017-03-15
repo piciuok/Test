@@ -1,0 +1,63 @@
+<html>
+<head>
+	<script type="text/javascript" src='vue.js'></script>
+</head>
+<body>
+
+<div id="app">
+	<pre>{{ $data }}</pre>
+	<div v-for="plan in plans">
+		<plan :plan="plan" :active="active"></plan>
+	</div>
+</div>
+
+<template id="plan-template">
+	<div>
+		<span>{{plan.name}}</span>
+		<span>{{plan.price}}/month</span>
+		<button @click="setActivePlan">{{ isUpgrade ? 'Upgrade' : 'Downgrade' }}</button>
+	</div>
+</template>
+
+<script type="text/javascript">
+
+	Vue.component('plan', {
+		template: '#plan-template',
+		props: ['plan','active'],
+
+		data : function() {
+			return { activeList: this.active }
+		},
+
+		computed: {
+			isActive: function() {
+				return this.plan.price == this.active.price;
+			},
+			isUpgrade: function() {
+				return this.plan.price > this.active.price;
+			},
+		},
+		methods: {
+			setActivePlan: function() {
+				this.activeList = this.plan;
+			}
+		}
+	});
+	
+	var pakiety = new Vue({
+		el: "#app",
+		data : {
+			plans : [
+				{name: 'Wysoka', price: 200},
+				{name: 'Średnia', price: 150},
+				{name: 'Niska', price: 100},
+				{name: 'Budzet', price: 50},
+			],
+			active : true,
+		},
+
+	});
+
+</script>
+</body>
+</html>

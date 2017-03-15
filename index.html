@@ -1,0 +1,60 @@
+<html>
+<head>
+	
+</head>
+<body>
+
+
+	<div id="chapter2">
+		<div class="title">Lista rzeczy do zrobienia</div>
+		<div class="add-new"><input v-model="todoInput" v-on:keyup.enter="addTask" placeholder="wpisz nowa rzecz" /></div>
+		<div class="todo-wrap">
+			<ul>
+				<li v-for="(single, index) in todos">{{index + 1}}. {{single.text}} <i v-on:click="removeTask(index)" style="cursor:pointer;">X</i></li>
+			</ul>
+		</div>
+	</div>
+	
+	<div id="chapter3">
+		<form action="done.html" method="POST" v-on:submit.prevent="formSubmitted">
+			<button type="submit">send form</button>
+
+		</form>
+
+		<button @click="increase">increment {{ like }}</button>
+		<button @click="descrease">increment {{ dislike }}</button>
+
+
+		<counter heading="Likes" type="add"></counter>
+
+		<counter heading="Dislikes" type="remove"></counter>
+	</div>
+
+	<div id="lesson4">
+		<h1>{{fullName}}</h1>
+		<input v-model="firstName" placeholder="First Name">
+		<input v-model="lastName" placeholder="Lasy Name">
+
+	</div>
+
+<template id="counter-template">
+	<div class="wrap">
+	<h1>{{heading}}</h1>
+
+	<div v-if="type == 'add'">
+		<button @click="count += 1">{{count}} - {{fans}}</button>
+	</div>
+	<div v-else>
+		<button @click="count -= 1">{{count}} - {{fans}}</button>
+	</div>
+	<input v-model="count"/>
+	</div>
+</template>
+	
+
+</script>
+
+<script type="text/javascript" src='vue.js'></script>
+<script type="text/javascript" src='magic.js'></script>
+</body>
+</html>
