@@ -1,0 +1,38 @@
+<html>
+<head>
+	<script type="text/javascript" src='vue.js'></script>
+</head>
+<style type="text/css">
+	.completed {text-decoration: line-through;}
+</style>
+<body>
+
+<div id="app">
+	<tasks :list="tasks"></tasks>
+
+	<ul>
+		<li v-for="numb in filteredNumbers">{{numb.name}}</li>
+	</ul>
+</div>
+
+<template id="tasks-template">
+	<div>
+		<h1>My tasks</h1>
+		
+
+		<h4>Total uncompleted: <span v-show='remaining'>{{ remaining }}</span></h4>
+		<ul v-if="list.length">
+			<li v-for="item in list">
+			<span @click="item.completed = !item.completed" :class="{'completed' : item.completed}">{{item.body}}</span>
+			<strong @click="deleteTask(item)">x</strong>
+			</li>
+		</ul>
+		<h4 v-else>Brak zadan</h4>
+		<input @keyup.enter="addTask(this.value)"/><br>
+		<button @click="clearCompleted">Wyczysc ukoncozne zadania</button>
+	</div>
+</template>
+
+<script type="text/javascript" src="main1.js"></script>
+</body>
+</html>
