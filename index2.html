@@ -5,9 +5,9 @@
 <body>
 
 <div id="app">
-	<pre>{{ $data }}</pre>
+	{{$data}}
 	<div v-for="plan in plans">
-		<plan :plan="plan" :active="active"></plan>
+		<plan :plan="plan" @activate="setPlan(plan)" :active="activeRoot"></plan>
 	</div>
 </div>
 
@@ -15,7 +15,9 @@
 	<div>
 		<span>{{plan.name}}</span>
 		<span>{{plan.price}}/month</span>
-		<button @click="setActivePlan">{{ isUpgrade ? 'Upgrade' : 'Downgrade' }}</button>
+		<button v-if="!isActive" @click="updateActivePlan">{{isUpgrade ? 'Upgrade' : 'Downgrade'}}</button>
+		<span v-else>Aktywny</span>
+
 	</div>
 </template>
 
@@ -23,24 +25,21 @@
 
 	Vue.component('plan', {
 		template: '#plan-template',
-		props: ['plan','active'],
-
-		data : function() {
-			return { activeList: this.active }
-		},
-
+		props: ['plan', 'active'],
 		computed: {
 			isActive: function() {
-				return this.plan.price == this.active.price;
+				return this.plan.price === this.active.price;
 			},
+
 			isUpgrade: function() {
 				return this.plan.price > this.active.price;
 			},
 		},
+
 		methods: {
-			setActivePlan: function() {
-				this.activeList = this.plan;
-			}
+			updateActivePlan: function() {
+				this.$emit('activate', this.plan);
+			},
 		}
 	});
 	
@@ -53,11 +52,16 @@
 				{name: 'Niska', price: 100},
 				{name: 'Budzet', price: 50},
 			],
-			active : true,
+			activeRoot : {},
 		},
+		methods: {
+			setPlan: function(plan) {
+				this.activeRoot = plan;
+			}
+		}
 
 	});
-hej ta
+
 </script>
 </body>
 </html>
